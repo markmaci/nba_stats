@@ -1,0 +1,489 @@
+@font-face {
+    font-family: 'Klavika';
+    src: url('../fonts/klavika-medium.otf') format('opentype');
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Klavika', Arial, sans-serif;
+    background-color: #f0f2f5;
+}
+
+header {
+    background-color: #4267b2;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 5px 0;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 100px;
+    max-width: 1400px;
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.links {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.links a {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #777;
+    background-color: #f0f2f5;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    flex-shrink: 0;
+    z-index: 1000; 
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #4267b2;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #4267b2;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.profile-image:hover {
+    border-color: #365899;
+}
+
+@media (max-width: 768px) {
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+.status-messages {
+    list-style-type: none;
+    padding: 0;
+}
+
+.status-messages li {
+    background-color: #e9ebee;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.status-messages li strong {
+    color: #4267b2;
+}
+
+.status-messages li p {
+    margin: 5px 0 0 0;
+}
+
+form {
+    margin: 20px 0;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="url"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+form button {
+    background-color: #4267b2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #365899;
+}
+
+a {
+    color: #4267b2;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    header {
+        font-size: 24px;
+        padding: 10px 15px;
+    }
+
+    nav a {
+        margin: 0 10px;
+        font-size: 16px;
+    }
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    table, th, td {
+        font-size: 14px;
+    }
+
+    form button {
+        width: 100%;
+    }
+}
+
+form.profile-form,
+form.status-form {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f0f2f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+}
+
+
+form.profile-form button,
+form.status-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #4267b2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form.profile-form button:hover,
+form.status-form button:hover {
+    background-color: #365899;
+}
+
+@media (max-width: 600px) {
+    form.profile-form,
+    form.status-form {
+        padding: 15px;
+        max-width: 90%;
+    }
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+.status-images {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.status-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    object-fit: cover;
+    border: 2px solid #4267b2;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+@media (max-width: 768px) {
+    .status-images {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .status-image {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+.status-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.messages {
+    margin: 20px;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.news-feed {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-message {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f0f2f5;
+}
+
+.author-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-image-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #4267b2;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.timestamp {
+    margin-left: auto;
+    font-size: 0.9em;
+    color: #777;
+}
+.message-content p {
+    font-size: 1em;
+    margin: 5px 0;
+    color: #333;
+}
+
+.news-feed .status-images {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .news-feed {
+        max-width: 100%;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .profile-image-small {
+        width: 40px;
+        height: 40px;
+    }
+
+    .message-content p {
+        font-size: 0.95em;
+    }
+}
+
+.friend-suggestions-link {
+    list-style-type: none;
+    padding: 0;
+}
+
+.friend-suggestions-link li {
+    margin-bottom: 10px;
+}
+
+.friend-suggestions-link a {
+    background-color: #4267b2;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.friend-suggestions-link a:hover {
+    background-color: #365899;
+}
+
+.friend-suggestions {
+    list-style-type: none;
+    padding: 0;
+}
+
+.friend-suggestions li {
+    background-color: #f0f2f5;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-image-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #4267b2;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.author-details {
+    display: flex;
+    align-items: center;
+}
+
+.author-details a {
+    font-weight: bold;
+    color: #4267b2;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.mutual-friends {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.action form {
+    margin: 0;
+}
+
+.action button {
+    background-color: #4267b2;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.action button:hover {
+    background-color: #365899;
+}
+
+/* Messages Styles */
+.messages {
+    list-style-type: none;
+    padding: 0;
+}
+
+.messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.messages li.info {
+    background-color: #cce5ff;
+    color: #004085;
+}

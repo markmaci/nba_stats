@@ -1,0 +1,190 @@
+{% extends 'nba_stats/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    @font-face {
+        font-family: 'CelticsFont';
+        src: url("{% static 'fonts/nba-celtics.ttf' %}") format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        background: url("{% static 'images/nba_legends_bg.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        text-align: center;
+        margin: 0;
+        padding-top: 50px;
+        box-sizing: border-box;
+    }
+
+    .hero-content::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1;
+    }
+
+    .hero-content h1, 
+    .hero-content p, 
+    .hero-content .search-container {
+        position: relative;
+        z-index: 2; 
+        font-family: 'CelticsFont', Arial, sans-serif;
+        color: #fff;
+    }
+
+    .hero-content h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+    }
+
+    .hero-content p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+    .hero-content .search-container {
+        display: inline-block;
+        z-index: 2;
+    }
+
+    .hero-content .search-container input[type="text"] {
+        width: 300px;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content .search-container button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f1c40f;
+        color: #000;
+        font-size: 16px;
+        margin-left: 10px;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content .search-container button:hover {
+        background-color: #d4ac0d;
+    }
+
+    .logo-banner {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        overflow: hidden;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        z-index: 4;
+    }
+
+    .logo-track {
+        display: flex;
+        align-items: center;
+        animation: scroll 20s linear infinite;
+    }
+
+    .logo-track img {
+        height: 40px;
+        margin: 0 20px;
+        filter: drop-shadow(0 0 2px #fff);
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+</style>
+
+<!-- Content that needs to be above the filter (hero content) -->
+<div class="hero-content">
+    <h1>
+        <img src="{% static 'images/nba-logo-transparent.png' %}" alt="NBA Logo"
+             style="height:120px; vertical-align: middle; margin-right:-20px;">
+        Stats Finder
+    </h1>
+    <p>Search for any NBA player’s stats</p>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="post" class="search-container" action="{% url 'nba_stats:home' %}">
+        {% csrf_token %}
+        {{ form.player_name }}
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<div class="logo-banner">
+    <div class="logo-track">
+        <img src="{% static 'images/nba-atlanta-hawks-logo-768x768.png' %}" alt="Hawks" />
+        <img src="{% static 'images/nba-boston-celtics-logo-768x768.png' %}" alt="Celtics" />
+        <img src="{% static 'images/nba-chicago-bulls-logo-768x768.png' %}" alt="Bulls" />
+        <img src="{% static 'images/nba-los-angeles-lakers-logo-768x768.png' %}" alt="Lakers" />
+        <img src="{% static 'images/nba-golden-state-warriors-logo-768x768.png' %}" alt="Warriors" />
+        <img src="{% static 'images/nba-new-york-knicks-logo-768x768.png' %}" alt="Knicks" />
+        <img src="{% static 'images/nba-miami-heat-logo-768x768.png' %}" alt="Heat" />
+        <img src="{% static 'images/nba-san-antonio-spurs-logo-768x768.png' %}" alt="Spurs" />
+        <img src="{% static 'images/nba-oklahoma-city-thunder-logo-768x768.png' %}" alt="Thunder" />
+        <img src="{% static 'images/nba-los-angeles-clippers-logo-768x768.png' %}" alt="Clippers" />
+        <img src="{% static 'images/nba-toronto-raptors-logo-768x768.png' %}" alt="Raptors" />
+        <img src="{% static 'images/nba-utah-jazz-logo-768x768.png' %}" alt="Jazz" />
+        <img src="{% static 'images/nba-dallas-mavericks-logo-768x768.png' %}" alt="Mavericks" />
+        <img src="{% static 'images/nba-houston-rockets-logo-768x768.png' %}" alt="Rockets" />
+        <img src="{% static 'images/nba-milwaukee-bucks-logo-768x768.png' %}" alt="Bucks" />
+        <img src="{% static 'images/nba-indiana-pacers-logo-768x768.png' %}" alt="Pacers" />
+        <img src="{% static 'images/nba-portland-trail-blazers-logo-768x768.png' %}" alt="Trail Blazers" />
+        <img src="{% static 'images/nba-phoenix-suns-logo-768x768.png' %}" alt="Suns" />
+        <img src="{% static 'images/nba-detroit-pistons-logo-768x768.png' %}" alt="Pistons" />
+        <img src="{% static 'images/nba-minnesota-timberwolves-logo-768x768.png' %}" alt="Timberwolves" />
+        <img src="{% static 'images/nba-charlotte-hornets-logo-768x768.png' %}" alt="Hornets" />
+        <img src="{% static 'images/nba-cleveland-cavaliers-logo-768x768.png' %}" alt="Cavaliers" />
+        <img src="{% static 'images/nba-memphis-grizzlies-logo-768x768.png' %}" alt="Grizzlies" />
+        <img src="{% static 'images/nba-new-orleans-pelicans-logo-768x768.png' %}" alt="Pelicans" />
+        <img src="{% static 'images/nba-orlando-magic-logo-768x768.png' %}" alt="Magic" />
+        <img src="{% static 'images/nba-sacramento-kings-logo-768x768.png' %}" alt="Kings" />
+        <img src="{% static 'images/nba-washington-wizards-logo-768x768.png' %}" alt="Wizards" />
+        <img src="{% static 'images/nba-brooklyn-nets-logo-768x768.png' %}" alt="Nets" />
+        <img src="{% static 'images/nba-denver-nuggets-logo-768x768.png' %}" alt="Nuggets" />
+
+        <!-- Repeat the logos to ensure smooth scrolling -->
+        <img src="{% static 'images/nba-atlanta-hawks-logo-768x768.png' %}" alt="Hawks" />
+        <img src="{% static 'images/nba-boston-celtics-logo-768x768.png' %}" alt="Celtics" />
+        <img src="{% static 'images/nba-chicago-bulls-logo-768x768.png' %}" alt="Bulls" />
+        <img src="{% static 'images/nba-los-angeles-lakers-logo-768x768.png' %}" alt="Lakers" />
+        <img src="{% static 'images/nba-golden-state-warriors-logo-768x768.png' %}" alt="Warriors" />
+
+    </div>
+</div>
+{% endblock content %}

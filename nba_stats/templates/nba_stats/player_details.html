@@ -1,0 +1,236 @@
+{% extends 'nba_stats/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .player-page {
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+        background: url("{% static 'images/nba_legends_bg.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        padding: 100px 20px 100px 20px;
+        box-sizing: border-box;
+    }
+
+    .player-page::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.7);
+        z-index: 1;
+    }
+
+    .player-content {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .player-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+
+    .player-header img {
+        width: 300px;
+        height: auto;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        margin-right: 30px;
+    }
+
+    .player-name {
+        font-family: 'CelticsFont', Arial, sans-serif;
+        font-size: 3em;
+        margin: 0;
+    }
+
+    .player-subtitle {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 1.2em;
+        color: #ccc;
+        margin-top: 5px;
+    }
+
+    .career-averages {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 1em;
+        color: #fff;
+        margin-top: 15px;
+    }
+
+    .section-heading {
+        font-family: 'CelticsFont', Arial, sans-serif;
+        font-size: 2em;
+        margin: 40px 0 20px 0;
+        text-align: left;
+        width: 100%;
+        color: #f1c40f;
+        border-bottom: 2px solid #f1c40f;
+        padding-bottom: 10px;
+    }
+
+    .stats-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Helvetica, Arial, sans-serif;
+        margin-bottom: 40px;
+    }
+
+    .stats-table th, .stats-table td {
+        border: 1px solid #444;
+        padding: 10px;
+        text-align: center;
+        color: #fff;
+        background: rgba(0,0,0,0.3);
+    }
+
+    .stats-table th {
+        background: rgba(0,0,0,0.5);
+        font-weight: bold;
+    }
+
+    .stats-form {
+        font-family: Helvetica, Arial, sans-serif;
+        margin: 20px 0;
+    }
+
+    .stats-form select,
+    .stats-form button {
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        margin-right: 10px;
+        font-size: 1em;
+    }
+
+    .stats-form button {
+        background-color: #f1c40f;
+        color: #000;
+        cursor: pointer;
+    }
+
+    .stats-form button:hover {
+        background-color: #d4ac0d;
+    }
+
+    html, body {
+        overflow: auto;
+    }
+</style>
+
+<div class="player-page">
+    <div class="player-content">
+        <!-- Player header section -->
+        <div class="player-header">
+            <img src="{{ headshot_url }}" alt="{{ player_name }} headshot">
+            <div>
+                <h1 class="player-name">{{ player_name }}</h1>
+                <div class="player-subtitle">Career Statistics</div>
+                <div class="career-averages">
+                    PPG: {{ pts_pg }}<br>
+                    RPG: {{ reb_pg }}<br>
+                    APG: {{ ast_pg }}<br>
+                    STLPG: {{ stl_pg }}<br>
+                    BLKPG: {{ blk_pg }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Career Totals Section -->
+        {% if career_stats %}
+            <h2 class="section-heading">Career Regular Season Totals</h2>
+            <table class="stats-table">
+                <tr>
+                    <th>GP</th><th>FGM</th><th>FGA</th><th>FG%</th><th>3PM</th><th>3PA</th><th>3P%</th><th>OREB</th>
+                    <th>DREB</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>TOV</th><th>PTS</th>
+                </tr>
+                <tr>
+                    <td>{{ career_stats.GP }}</td><td>{{ career_stats.FGM }}</td><td>{{ career_stats.FGA }}</td><td>{{ career_stats.FG_PCT }}</td><td>{{ career_stats.FG3M }}</td><td>{{ career_stats.FG3A }}</td><td>{{ career_stats.FG3_PCT }}</td><td>{{ career_stats.OREB }}</td><td>{{ career_stats.DREB }}</td><td>{{ career_stats.REB }}</td><td>{{ career_stats.AST }}</td><td>{{ career_stats.STL }}</td><td>{{ career_stats.BLK }}</td><td>{{ career_stats.TOV }}</td><td>{{ career_stats.PTS }}</td>
+                </tr>
+            </table>
+        {% else %}
+            <p style="font-family:Helvetica,Arial,sans-serif; color:#fff;">No career stats available.</p>
+        {% endif %}
+
+        <!-- Stats Dropdown Form -->
+        <form method="post" class="stats-form" style="display: flex; align-items: center;">
+            {% csrf_token %}
+            {{ dropdown_form }}
+            <button type="submit" style="margin-left: 10px;">Go</button>
+        </form>
+
+        <!-- Chosen Stats Section -->
+        {% if chosen_stats %}
+            <h2 class="section-heading">{{ chosen_title }} Stats</h2>
+            <table class="stats-table">
+                <tr>
+                    <th>Season</th><th>Team</th><th>GP</th><th>FGM</th><th>FGA</th><th>FG%</th><th>3PM</th><th>3PA</th><th>3P%</th><th>REB</th><th>RPG</th><th>AST</th><th>APG</th><th>STL</th><th>STLPG</th><th>BLK</th><th>BLKPG</th><th>TOV</th><th>PTS</th><th>PPG</th>
+                </tr>
+                {% for season in chosen_stats %}
+                <tr>
+                    <td>{{ season.SEASON_ID }}</td>
+                    <td>{{ season.TEAM_ABBREVIATION }}</td>
+                    <td>{{ season.GP }}</td>
+                    <td>{{ season.FGM }}</td><td>{{ season.FGA }}</td><td>{{ season.FG_PCT }}</td>
+                    <td>{{ season.FG3M }}</td><td>{{ season.FG3A }}</td><td>{{ season.FG3_PCT }}</td>
+                    <td>{{ season.REB }}</td><td>{{ season.RPG }}</td>
+                    <td>{{ season.AST }}</td><td>{{ season.APG }}</td><td>{{ season.STL }}</td><td>{{ season.STLPG }}</td>
+                    <td>{{ season.BLK }}</td><td>{{ season.BLKPG }}</td><td>{{ season.TOV }}</td><td>{{ season.PTS }}</td><td>{{ season.PPG }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Logo banner -->
+<div class="logo-banner">
+    <div class="logo-track">
+        <img src="{% static 'images/nba-atlanta-hawks-logo-768x768.png' %}" alt="Hawks" />
+        <img src="{% static 'images/nba-boston-celtics-logo-768x768.png' %}" alt="Celtics" />
+        <img src="{% static 'images/nba-chicago-bulls-logo-768x768.png' %}" alt="Bulls" />
+        <img src="{% static 'images/nba-los-angeles-lakers-logo-768x768.png' %}" alt="Lakers" />
+        <img src="{% static 'images/nba-golden-state-warriors-logo-768x768.png' %}" alt="Warriors" />
+        <img src="{% static 'images/nba-new-york-knicks-logo-768x768.png' %}" alt="Knicks" />
+        <img src="{% static 'images/nba-miami-heat-logo-768x768.png' %}" alt="Heat" />
+        <img src="{% static 'images/nba-san-antonio-spurs-logo-768x768.png' %}" alt="Spurs" />
+        <img src="{% static 'images/nba-oklahoma-city-thunder-logo-768x768.png' %}" alt="Thunder" />
+        <img src="{% static 'images/nba-los-angeles-clippers-logo-768x768.png' %}" alt="Clippers" />
+        <img src="{% static 'images/nba-toronto-raptors-logo-768x768.png' %}" alt="Raptors" />
+        <img src="{% static 'images/nba-utah-jazz-logo-768x768.png' %}" alt="Jazz" />
+        <img src="{% static 'images/nba-dallas-mavericks-logo-768x768.png' %}" alt="Mavericks" />
+        <img src="{% static 'images/nba-houston-rockets-logo-768x768.png' %}" alt="Rockets" />
+        <img src="{% static 'images/nba-milwaukee-bucks-logo-768x768.png' %}" alt="Bucks" />
+        <img src="{% static 'images/nba-indiana-pacers-logo-768x768.png' %}" alt="Pacers" />
+        <img src="{% static 'images/nba-portland-trail-blazers-logo-768x768.png' %}" alt="Trail Blazers" />
+        <img src="{% static 'images/nba-phoenix-suns-logo-768x768.png' %}" alt="Suns" />
+        <img src="{% static 'images/nba-detroit-pistons-logo-768x768.png' %}" alt="Pistons" />
+        <img src="{% static 'images/nba-minnesota-timberwolves-logo-768x768.png' %}" alt="Timberwolves" />
+        <img src="{% static 'images/nba-charlotte-hornets-logo-768x768.png' %}" alt="Hornets" />
+        <img src="{% static 'images/nba-cleveland-cavaliers-logo-768x768.png' %}" alt="Cavaliers" />
+        <img src="{% static 'images/nba-memphis-grizzlies-logo-768x768.png' %}" alt="Grizzlies" />
+        <img src="{% static 'images/nba-new-orleans-pelicans-logo-768x768.png' %}" alt="Pelicans" />
+        <img src="{% static 'images/nba-orlando-magic-logo-768x768.png' %}" alt="Magic" />
+        <img src="{% static 'images/nba-sacramento-kings-logo-768x768.png' %}" alt="Kings" />
+        <img src="{% static 'images/nba-washington-wizards-logo-768x768.png' %}" alt="Wizards" />
+        <img src="{% static 'images/nba-brooklyn-nets-logo-768x768.png' %}" alt="Nets" />
+        <img src="{% static 'images/nba-denver-nuggets-logo-768x768.png' %}" alt="Nuggets" />
+
+        <!-- Repeat the logos to ensure smooth scrolling -->
+        <img src="{% static 'images/nba-atlanta-hawks-logo-768x768.png' %}" alt="Hawks" />
+        <img src="{% static 'images/nba-boston-celtics-logo-768x768.png' %}" alt="Celtics" />
+        <img src="{% static 'images/nba-chicago-bulls-logo-768x768.png' %}" alt="Bulls" />
+        <img src="{% static 'images/nba-los-angeles-lakers-logo-768x768.png' %}" alt="Lakers" />
+        <img src="{% static 'images/nba-golden-state-warriors-logo-768x768.png' %}" alt="Warriors" />
+
+    </div>
+</div>
+{% endblock content %}
