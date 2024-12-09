@@ -6,94 +6,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NBA Stats</title>
+
+    <!-- Inline styles for consistent design across all pages -->
     <style>
+        /* Custom font for a branded experience */
         @font-face {
             font-family: 'CelticsFont';
             src: url("{% static 'fonts/nba-celtics.ttf' %}") format('truetype');
             font-weight: normal;
             font-style: normal;
         }
-        
+
+        /* Base styles for the page */
         html, body {
-            margin: 0;
+            margin: 0; /* Remove default margin for full-screen effect */
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif; /* Default fallback font */
             height: 100%;
             width: 100%;
-            background: #000;
+            background: #000; /* Black background for NBA-themed visuals */
         }
 
+        /* Navbar styles for navigation */
         .navbar {
-            position: fixed;
+            position: fixed; /* Stick the navbar to the top of the page */
             top: 0;
             left: 0;
-            width: 100%;
+            width: 100%; /* Full-width navbar */
             height: 40px;
-            display: flex;
-            align-items: center;
+            display: flex; /* Align navbar items horizontally */
+            align-items: center; /* Vertically center the items */
             padding: 0 20px;
-            background: rgba(0,0,0,0.3);
-            z-index: 3;
+            background: rgba(0,0,0,0.3); /* Semi-transparent black background */
+            z-index: 3; /* Ensure the navbar is above other elements */
         }
 
+        /* Navbar links */
         .navbar a {
-            color: #fff;
-            text-decoration: none;
-            padding: 14px 20px;
-            font-family: 'CelticsFont', Arial, sans-serif;
-            font-size: 1.2em;
+            color: #fff; /* White text for contrast on black background */
+            text-decoration: none; /* Remove underline from links */
+            padding: 14px 20px; /* Spacing around the text for clickable area */
+            font-family: 'CelticsFont', Arial, sans-serif; /* Custom font */
+            font-size: 1.2em; /* Slightly larger font size for readability */
         }
 
         .navbar a:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255,255,255,0.1); /* Highlight link on hover */
         }
 
+        /* Content section where page-specific blocks are inserted */
         .content {
             margin: 0;
             padding: 0;
-            background: transparent;
-            min-height: 100vh; /* Ensure it can grow as needed */
+            background: transparent; /* Keep background transparent to show parent background */
+            min-height: 100vh; /* Ensure content fills at least the viewport height */
             position: relative;
         }
 
+        /* Scrolling banner for team logos at the bottom of the page */
         .logo-banner {
-            position: fixed;
+            position: fixed; /* Stick the banner to the bottom of the page */
             bottom: 0;
             width: 100%;
             height: 60px;
-            overflow: hidden;
-            background: rgba(0,0,0,0.5);
+            overflow: hidden; /* Hide content that overflows the container */
+            background: rgba(0,0,0,0.5); /* Semi-transparent background for contrast */
             display: flex;
-            align-items: center;
-            z-index: 4;
+            align-items: center; /* Center logos vertically */
+            z-index: 4; /* Place the banner above other elements */
         }
 
+        /* Logo container for scrolling animation */
         .logo-track {
-            display: flex;
-            align-items: center;
-            animation: scroll 20s linear infinite;
+            display: flex; /* Horizontally align logos */
+            align-items: center; /* Center logos vertically */
+            animation: scroll 20s linear infinite; /* Smooth scrolling animation */
         }
 
+        /* Individual logo styles */
         .logo-track img {
-            height: 40px;
-            margin: 0 20px;
-            filter: drop-shadow(0 0 2px #fff);
+            height: 40px; /* Uniform logo height */
+            margin: 0 20px; /* Spacing between logos */
+            filter: drop-shadow(0 0 2px #fff); /* Subtle glow effect around logos */
         }
 
+        /* Animation keyframes for scrolling the logos */
         @keyframes scroll {
             0% {
-                transform: translateX(0);
+                transform: translateX(0); /* Start position */
             }
             100% {
-                transform: translateX(-50%);
+                transform: translateX(-50%); /* End position to create loop effect */
             }
         }
     </style>
 </head>
 <body>
+    <!-- Navbar for page navigation -->
     <div class="navbar">
+        <!-- Link to the home page -->
         <a href="{% url 'nba_stats:home' %}">Home</a>
     </div>
+
+    <!-- Main content area where individual pages inject content -->
     <div class="content">
         {% block content %}{% endblock content %}
     </div>

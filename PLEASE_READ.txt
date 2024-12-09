@@ -1,0 +1,27 @@
+** PLEASE READ **
+For some reason, the deployed version of the app on heroku has an H12 timeout error when
+trying to access the stats. I documented the error on piazza like so:
+
+My app fetches data from a python package api. This data is fetched on a page load which
+takes very little time on local but for some reason I get an H12 error on Heroku every
+time I try to go beyond the home page in the deployed version. This is strange to me because
+the data I'm fetching is not large, at least not enough to warrant a >30 second response
+time, so I'm really confused on why this is happening as these pages load super quick on
+local even though the api call response time shouldn't vary that much.
+ 
+The app builds and deploys just fine. Here are the Heroku logs:
+
+2024-12-09T05:42:20.570374+00:00 heroku[router]: at=error code=H12 desc="Request timeout"
+method=GET path="/nba_stats/player/1628973/" host=mini-fb-3c30967d650d.herokuapp.com
+request_id=b79ae7d9-5c71-426e-b75b-9d824d04383d fwd="104.28.39.31" dyno=web.1
+connect=0ms service=30000ms status=503 bytes=0 protocol=https
+
+My only explanation is that it's something weird with the NBA api I'm using. I've never faced
+this issue with the classes' previous assignments or with other django apps I've built that
+fetch api data.
+
+I cannot pre-download the data like the professor reccomened because the purpose of the app
+is to have the stats of every nba player from 1950 - present. But the app does not function by
+fetching all of that data at once (way too large), it fetches the data for a specific player when the user requests
+it (so it's weird that it's timing out). If you would like to try the app out, please run it locally. I'm sorry for the inconvenience.
+You can also check the video as it shows the app in action.
