@@ -125,14 +125,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Additional Security and Production Settings
 if ENVIRONMENT == 'production':
-    ALLOWED_HOSTS = [
-        'obi-wan-quotes-a25cf872dd4b.herokuapp.com',
-        'obi-wan-quotes.herokuapp.com',
-        'https://ushqim-754dbfe6e671.herokuapp.com',
-        'ushqim-754dbfe6e671.herokuapp.com',
-        'https://mini-fb-3c30967d650d.herokuapp.com',
-        'mini-fb-3c30967d650d.herokuapp.com'
-    ]
+    # ALLOWED_HOSTS = [
+    #     'obi-wan-quotes-a25cf872dd4b.herokuapp.com',
+    #     'obi-wan-quotes.herokuapp.com',
+    #     'https://ushqim-754dbfe6e671.herokuapp.com',
+    #     'ushqim-754dbfe6e671.herokuapp.com',
+    #     'https://mini-fb-3c30967d650d.herokuapp.com',
+    #     'mini-fb-3c30967d650d.herokuapp.com'
+    # ]
+    ALLOWED_HOSTS = ['*']
 
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
