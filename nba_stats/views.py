@@ -1,7 +1,7 @@
 """
-views.py
-
-This module defines views to handle rendering and processing of the NBA stats application pages.
+File: views.py
+Author: Mark Maci, markmaci@bu.edu, 12/10/2024
+Description: This module defines views to handle rendering and processing of the NBA stats application pages.
 It includes:
 - The home page view, which provides a search form for players.
 - A search view for listing found players.
@@ -13,6 +13,41 @@ from django.shortcuts import render, redirect
 from .forms import PlayerSearchForm, StatsDropdownForm
 from nba_api.stats.static import players
 from .utils import get_player_name_and_image
+from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate, logout
+from .forms import SignupForm
+from .models import UserProfile
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .models import Roster, UserProfile
+from django.shortcuts import get_object_or_404
+
+def signup(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            # Create the user
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password']
+            )
+            # Create UserProfile
+            UserProfile.objects.create(
+                user=user,
+                favorite_team=form.cleaned_data.get('favorite_team', '')
+            )
+            # Log the user in
+            login(request, user)
+            return redirect('nba_stats:home')
+    else:
+        form = SignupForm()
+
+    return render(request, 'nba_stats/signup.html', {'form': form})
+
+def custom_logout(request):
+    logout(request)  # Logs the user out
+    return redirect('nba_stats:home')  # Redirect to the home page
 
 def home(request):
     """
@@ -151,3 +186,38 @@ def player_details(request, player_id):
     }
 
     return render(request, 'nba_stats/player_details.html', context)
+
+@login_required
+def add_to_roster(request, player_id):
+    player_name, player_image_url = get_player_name_and_image(player_id)
+
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
+    # Check if player already in the user's roster
+    if Roster.objects.filter(user=user_profile, player_id=player_id).exists():
+        return JsonResponse({'status': 'error', 'message': 'Player already in roster'})
+
+    # Add player to roster
+    Roster.objects.create(
+        user=user_profile,
+        player_id=player_id,
+        player_name=player_name,
+        player_image_url=player_image_url
+    )
+
+    return JsonResponse({'status': 'success', 'message': f'{player_name} added to roster!'})
+
+@login_required
+def user_roster(request):
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+    roster = user_profile.roster.all()
+
+    return render(request, 'nba_stats/roster.html', {'roster': roster})
+
+@login_required
+def remove_from_roster(request, player_id):
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+    player = get_object_or_404(Roster, user=user_profile, player_id=player_id)
+
+    player.delete()
+    return redirect('nba_stats:roster')

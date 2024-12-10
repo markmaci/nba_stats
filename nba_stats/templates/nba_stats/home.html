@@ -1,9 +1,14 @@
+<!-- 
+File: home.html
+Author: Mark Maci (markmaci@bu.edu), 12/10/2024
+Description: This template displays the home page for the NBA Stats app where users can search for player stats.
+-->
 {% extends 'nba_stats/base.html' %}
 {% load static %}
 
 {% block content %}
 <style>
-    /* Custom font definition for consistent branding */
+    /* Load custom NBA style font */
     @font-face {
         font-family: 'CelticsFont';
         src: url("{% static 'fonts/nba-celtics.ttf' %}") format('truetype');
@@ -11,138 +16,149 @@
         font-style: normal;
     }
 
-    /* Base layout settings */
     html, body {
-        height: 100%; /* Ensure the content fills the viewport */
+        height: 100%;
         margin: 0;
         padding: 0;
-        overflow: hidden; /* Prevent unnecessary scrolling */
+        overflow: hidden;
     }
 
-    /* Hero section with a full-screen background image and text overlay */
+    /* Hero content styling for background filter to increase contrast */
     .hero-content {
         position: relative;
-        z-index: 2; /* Ensure the hero content appears above the background overlay */
+        z-index: 2;
         display: flex;
         flex-direction: column;
-        justify-content: center; /* Center content vertically and horizontally */
+        justify-content: center;
         align-items: center;
         width: 100vw;
-        height: 100vh; /* Full viewport height */
+        height: 100vh;
         background: url("{% static 'images/nba_legends_bg.jpg' %}") no-repeat center center fixed;
-        background-size: cover; /* Make the background image cover the entire section */
-        color: #fff; /* Use white text for readability against the dark background */
+        background-size: cover;
+        color: #fff;
         text-align: center;
-        padding-top: 50px; /* Add spacing for content alignment */
+        margin: 0;
+        padding-top: 50px;
+        box-sizing: border-box;
     }
 
-    /* Add a semi-transparent overlay for better text visibility */
+    /* Add a background filter to increase contrast */
     .hero-content::before {
         content: "";
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0, 0, 0, 0.5); /* Dark overlay with 50% opacity */
+        background: rgba(0,0,0,0.5);
         z-index: 1;
     }
 
-    /* Styling for the hero text and interactive elements */
+    /* Hero content text and search form styling */
     .hero-content h1, 
     .hero-content p, 
     .hero-content .search-container {
         position: relative;
-        z-index: 2; /* Ensure these elements appear above the overlay */
-        font-family: 'CelticsFont', Arial, sans-serif; /* Custom font for consistent design */
+        z-index: 2; 
+        font-family: 'CelticsFont', Arial, sans-serif;
+        color: #fff;
     }
 
     .hero-content h1 {
-        font-size: 3em; /* Large text for the title */
+        font-size: 3em;
         margin-bottom: 20px;
     }
 
     .hero-content p {
-        font-size: 1.2em; /* Subheading text size */
+        font-size: 1.2em;
         margin-bottom: 20px;
     }
 
-    /* Styling the search input and button */
+    .hero-content .search-container {
+        display: inline-block;
+        z-index: 2;
+    }
+
+    /* Search form input and button styling */
     .hero-content .search-container input[type="text"] {
-        width: 300px; /* Input width for ease of typing */
+        width: 300px;
         padding: 10px;
         border: none;
         border-radius: 4px;
         font-size: 16px;
+        position: relative;
+        z-index: 2;
     }
 
+    /* Search form button styling */
     .hero-content .search-container button {
         padding: 10px 20px;
         border: none;
         border-radius: 4px;
-        background-color: #f1c40f; /* Bright color for the button to stand out */
+        background-color: #f1c40f;
         color: #000;
         font-size: 16px;
         margin-left: 10px;
-        cursor: pointer; /* Indicate the button is clickable */
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
     }
 
     .hero-content .search-container button:hover {
-        background-color: #d4ac0d; /* Slightly darker shade for hover effect */
+        background-color: #d4ac0d;
     }
 
-    /* Bottom banner with scrolling NBA team logos */
     .logo-banner {
-        position: fixed; /* Fixed position at the bottom of the screen */
+        position: fixed;
         bottom: 0;
         width: 100%;
         height: 60px;
         overflow: hidden;
-        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        background: rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
         z-index: 4;
     }
 
-    /* Scrolling animation for team logos */
     .logo-track {
         display: flex;
         align-items: center;
-        animation: scroll 20s linear infinite; /* Smooth scrolling animation */
+        animation: scroll 20s linear infinite;
     }
 
     .logo-track img {
-        height: 40px; /* Uniform size for all logos */
-        margin: 0 20px; /* Space between logos */
-        filter: drop-shadow(0 0 2px #fff); /* Subtle glow effect around logos */
+        height: 40px;
+        margin: 0 20px;
+        filter: drop-shadow(0 0 2px #fff);
     }
 
-    /* Define the scroll animation */
+    /* Smooth scrolling animation */
     @keyframes scroll {
         0% {
-            transform: translateX(0); /* Start at the initial position */
+            transform: translateX(0);
         }
         100% {
-            transform: translateX(-50%); /* Move the logos left continuously */
+            transform: translateX(-50%);
         }
     }
 </style>
 
-<!-- Hero section for the app -->
+<!-- Content that needs to be above the filter (hero content) -->
 <div class="hero-content">
     <h1>
         <img src="{% static 'images/nba-logo-transparent.png' %}" alt="NBA Logo"
-             style="height:120px; vertical-align: middle; margin-right:-20px;"> <!-- NBA logo inline with title -->
+             style="height:120px; vertical-align: middle; margin-right:-20px;">
         Stats Finder
     </h1>
     <p>Search for any NBA player’s stats</p>
     {% if error %}
-        <p style="color: red;">{{ error }}</p> <!-- Display error messages, if any -->
+        <p style="color: red;">{{ error }}</p>
     {% endif %}
     <form method="post" class="search-container" action="{% url 'nba_stats:home' %}">
-        {% csrf_token %} <!-- Protect the form submission with a CSRF token -->
-        {{ form.player_name }} <!-- Render the form field dynamically -->
+        {% csrf_token %}
+        {{ form.player_name }}
         <button type="submit">Search</button>
     </form>
 </div>
 
+<!-- Logo banner with NBA team logos -->
 <div class="logo-banner">
     <div class="logo-track">
         <img src="{% static 'images/nba-atlanta-hawks-logo-768x768.png' %}" alt="Hawks" />

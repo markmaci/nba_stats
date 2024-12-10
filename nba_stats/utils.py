@@ -1,7 +1,7 @@
 """
-utils.py
-
-Utility functions to assist in player data retrieval from the NBA API and related sources.
+File: models.py
+Author: Mark Maci, markmaci@bu.edu, 12/10/2024
+Description: Utility functions to assist in player data retrieval from the NBA API and related sources.
 These functions do not directly render views but provide helper logic, such as fetching
 a player's name and headshot image.
 """

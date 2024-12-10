@@ -1,4 +1,8 @@
-<!-- base.html -->
+<!-- 
+File: base.html
+Author: Mark Maci (markmaci@bu.edu), 12/10/2024
+Description: Base template for NBA Stats app. Contains the navbar and logo banner with NBA team logos.
+-->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,111 +10,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NBA Stats</title>
-
-    <!-- Inline styles for consistent design across all pages -->
     <style>
-        /* Custom font for a branded experience */
+        /* Load custom NBA style font */
         @font-face {
             font-family: 'CelticsFont';
             src: url("{% static 'fonts/nba-celtics.ttf' %}") format('truetype');
             font-weight: normal;
             font-style: normal;
         }
-
-        /* Base styles for the page */
+        
+        /* General styling */
         html, body {
-            margin: 0; /* Remove default margin for full-screen effect */
+            margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif; /* Default fallback font */
+            font-family: Arial, sans-serif;
             height: 100%;
             width: 100%;
-            background: #000; /* Black background for NBA-themed visuals */
+            background: #000;
         }
 
-        /* Navbar styles for navigation */
+        /* Navbar styling for stronger filter and contrast */
         .navbar {
-            position: fixed; /* Stick the navbar to the top of the page */
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%; /* Full-width navbar */
+            width: 100%;
             height: 40px;
-            display: flex; /* Align navbar items horizontally */
-            align-items: center; /* Vertically center the items */
+            display: flex;
+            align-items: center;
             padding: 0 20px;
-            background: rgba(0,0,0,0.3); /* Semi-transparent black background */
-            z-index: 3; /* Ensure the navbar is above other elements */
+            background: rgba(0,0,0,0.3);
+            z-index: 3;
         }
 
-        /* Navbar links */
         .navbar a {
-            color: #fff; /* White text for contrast on black background */
-            text-decoration: none; /* Remove underline from links */
-            padding: 14px 20px; /* Spacing around the text for clickable area */
-            font-family: 'CelticsFont', Arial, sans-serif; /* Custom font */
-            font-size: 1.2em; /* Slightly larger font size for readability */
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-family: 'CelticsFont', Arial, sans-serif;
+            font-size: 1.2em;
         }
 
         .navbar a:hover {
-            background-color: rgba(255,255,255,0.1); /* Highlight link on hover */
+            background-color: rgba(255,255,255,0.1);
         }
 
-        /* Content section where page-specific blocks are inserted */
         .content {
             margin: 0;
             padding: 0;
-            background: transparent; /* Keep background transparent to show parent background */
-            min-height: 100vh; /* Ensure content fills at least the viewport height */
+            background: transparent;
+            min-height: 100vh;
             position: relative;
         }
 
-        /* Scrolling banner for team logos at the bottom of the page */
+        /* Logo banner styling */
         .logo-banner {
-            position: fixed; /* Stick the banner to the bottom of the page */
+            position: fixed;
             bottom: 0;
             width: 100%;
             height: 60px;
-            overflow: hidden; /* Hide content that overflows the container */
-            background: rgba(0,0,0,0.5); /* Semi-transparent background for contrast */
+            overflow: hidden;
+            background: rgba(0,0,0,0.5);
             display: flex;
-            align-items: center; /* Center logos vertically */
-            z-index: 4; /* Place the banner above other elements */
+            align-items: center;
+            z-index: 4;
         }
 
-        /* Logo container for scrolling animation */
+        /* Logo track for smooth scrolling */
         .logo-track {
-            display: flex; /* Horizontally align logos */
-            align-items: center; /* Center logos vertically */
-            animation: scroll 20s linear infinite; /* Smooth scrolling animation */
+            display: flex;
+            align-items: center;
+            animation: scroll 20s linear infinite;
         }
 
-        /* Individual logo styles */
+        /* Logo image styling */
         .logo-track img {
-            height: 40px; /* Uniform logo height */
-            margin: 0 20px; /* Spacing between logos */
-            filter: drop-shadow(0 0 2px #fff); /* Subtle glow effect around logos */
+            height: 40px;
+            margin: 0 20px;
+            filter: drop-shadow(0 0 2px #fff);
         }
 
-        /* Animation keyframes for scrolling the logos */
+        /* Keyframes for smooth scrolling animation for 30 NBA team logos */
         @keyframes scroll {
             0% {
-                transform: translateX(0); /* Start position */
+                transform: translateX(0);
             }
             100% {
-                transform: translateX(-50%); /* End position to create loop effect */
+                transform: translateX(-50%);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar for page navigation -->
     <div class="navbar">
-        <!-- Link to the home page -->
         <a href="{% url 'nba_stats:home' %}">Home</a>
+        {% if user.is_authenticated %}
+        <!-- If user is authenticated, display My Roster and Logout links -->
+            <a href="{% url 'nba_stats:roster' %}">My Roster</a>
+            <a href="{% url 'nba_stats:logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'nba_stats:signup' %}">Sign Up</a>
+            <a href="{% url 'nba_stats:login' %}">Login</a>
+        {% endif %}
+    </div>    
     </div>
-
-    <!-- Main content area where individual pages inject content -->
     <div class="content">
         {% block content %}{% endblock content %}
+    </div>
+    <!-- Logo banner with NBA team logos -->
+    <div class="logo-banner">
+        <div class="logo-track">
+            <img src="{% static 'images/nba-atlanta-hawks-logo-768x768.png' %}" alt="Hawks" />
+            <img src="{% static 'images/nba-boston-celtics-logo-768x768.png' %}" alt="Celtics" />
+            <img src="{% static 'images/nba-chicago-bulls-logo-768x768.png' %}" alt="Bulls" />
+            <img src="{% static 'images/nba-los-angeles-lakers-logo-768x768.png' %}" alt="Lakers" />
+            <img src="{% static 'images/nba-golden-state-warriors-logo-768x768.png' %}" alt="Warriors" />
+            <img src="{% static 'images/nba-new-york-knicks-logo-768x768.png' %}" alt="Knicks" />
+            <img src="{% static 'images/nba-miami-heat-logo-768x768.png' %}" alt="Heat" />
+            <img src="{% static 'images/nba-san-antonio-spurs-logo-768x768.png' %}" alt="Spurs" />
+            <img src="{% static 'images/nba-oklahoma-city-thunder-logo-768x768.png' %}" alt="Thunder" />
+            <img src="{% static 'images/nba-los-angeles-clippers-logo-768x768.png' %}" alt="Clippers" />
+            <img src="{% static 'images/nba-toronto-raptors-logo-768x768.png' %}" alt="Raptors" />
+            <img src="{% static 'images/nba-utah-jazz-logo-768x768.png' %}" alt="Jazz" />
+            <img src="{% static 'images/nba-dallas-mavericks-logo-768x768.png' %}" alt="Mavericks" />
+            <img src="{% static 'images/nba-houston-rockets-logo-768x768.png' %}" alt="Rockets" />
+            <img src="{% static 'images/nba-milwaukee-bucks-logo-768x768.png' %}" alt="Bucks" />
+            <img src="{% static 'images/nba-indiana-pacers-logo-768x768.png' %}" alt="Pacers" />
+            <img src="{% static 'images/nba-portland-trail-blazers-logo-768x768.png' %}" alt="Trail Blazers" />
+            <img src="{% static 'images/nba-phoenix-suns-logo-768x768.png' %}" alt="Suns" />
+            <img src="{% static 'images/nba-detroit-pistons-logo-768x768.png' %}" alt="Pistons" />
+            <img src="{% static 'images/nba-minnesota-timberwolves-logo-768x768.png' %}" alt="Timberwolves" />
+            <img src="{% static 'images/nba-charlotte-hornets-logo-768x768.png' %}" alt="Hornets" />
+            <img src="{% static 'images/nba-cleveland-cavaliers-logo-768x768.png' %}" alt="Cavaliers" />
+            <img src="{% static 'images/nba-memphis-grizzlies-logo-768x768.png' %}" alt="Grizzlies" />
+            <img src="{% static 'images/nba-new-orleans-pelicans-logo-768x768.png' %}" alt="Pelicans" />
+            <img src="{% static 'images/nba-orlando-magic-logo-768x768.png' %}" alt="Magic" />
+            <img src="{% static 'images/nba-sacramento-kings-logo-768x768.png' %}" alt="Kings" />
+            <img src="{% static 'images/nba-washington-wizards-logo-768x768.png' %}" alt="Wizards" />
+            <img src="{% static 'images/nba-brooklyn-nets-logo-768x768.png' %}" alt="Nets" />
+            <img src="{% static 'images/nba-denver-nuggets-logo-768x768.png' %}" alt="Nuggets" />
+    
+            <!-- Repeat the logos to ensure smooth scrolling -->
+            <img src="{% static 'images/nba-atlanta-hawks-logo-768x768.png' %}" alt="Hawks" />
+            <img src="{% static 'images/nba-boston-celtics-logo-768x768.png' %}" alt="Celtics" />
+            <img src="{% static 'images/nba-chicago-bulls-logo-768x768.png' %}" alt="Bulls" />
+            <img src="{% static 'images/nba-los-angeles-lakers-logo-768x768.png' %}" alt="Lakers" />
+            <img src="{% static 'images/nba-golden-state-warriors-logo-768x768.png' %}" alt="Warriors" />
+    
+        </div>
     </div>
 </body>
 </html>

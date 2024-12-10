@@ -1,0 +1,144 @@
+<!-- 
+File: login.html
+Author: Mark Maci (markmaci@bu.edu), 12/10/2024
+Description: This template displays the login page for the NBA Stats app.
+-->
+{% extends 'nba_stats/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    @font-face {
+        font-family: 'CelticsFont';
+        src: url("{% static 'fonts/nba-celtics.ttf' %}") format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        background: url("{% static 'images/nba_legends_bg.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        text-align: center;
+        margin: 0;
+        padding-top: 50px;
+        box-sizing: border-box;
+    }
+
+    .hero-content::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1;
+    }
+
+    .hero-content h1, 
+    .hero-content p, 
+    .hero-content form {
+        position: relative;
+        z-index: 2; 
+        font-family: 'CelticsFont', Arial, sans-serif;
+        color: #fff;
+    }
+
+    .hero-content h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+    }
+
+    .hero-content form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-content form input[type="text"],
+    .hero-content form input[type="email"],
+    .hero-content form input[type="password"] {
+        width: 300px;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    .hero-content form button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f1c40f;
+        color: #000;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .hero-content form button:hover {
+        background-color: #d4ac0d;
+    }
+
+    .logo-banner {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        overflow: hidden;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        z-index: 4;
+    }
+
+    .logo-track {
+        display: flex;
+        align-items: center;
+        animation: scroll 20s linear infinite;
+    }
+
+    .logo-track img {
+        height: 40px;
+        margin: 0 20px;
+        filter: drop-shadow(0 0 2px #fff);
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+</style>
+
+<!-- Hero content section -->
+<div class="hero-content">
+    <!-- Login heading -->
+    <h1>Login</h1>
+    <!-- Login form -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <!-- Submit button -->
+        <button type="submit">Login</button>
+    </form>
+    <!-- Signup link -->
+    <p>Don't have an account? <a href="{% url 'nba_stats:signup' %}">Sign up here</a>.</p>
+</div>
+{% endblock %}

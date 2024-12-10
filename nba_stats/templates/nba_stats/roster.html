@@ -1,0 +1,136 @@
+<!-- 
+File: home.html
+Author: Mark Maci (markmaci@bu.edu), 12/10/2024
+Description: This template displays the roster page for the NBA Stats app where users can view and manage their roster of favorite players.
+-->
+
+{% extends 'nba_stats/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .roster-page {
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+        background: url("{% static 'images/nba_legends_bg.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        padding: 100px 20px 100px 20px;
+        box-sizing: border-box;
+    }
+
+    .roster-page::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.7);
+        z-index: 1;
+    }
+
+    .roster-content {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .section-heading {
+        font-family: 'CelticsFont', Arial, sans-serif;
+        font-size: 2.5em;
+        margin: 40px 0 20px 0;
+        text-align: center;
+        width: 100%;
+        color: #f1c40f;
+        border-bottom: 2px solid #f1c40f;
+        padding-bottom: 10px;
+    }
+
+    .roster-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        width: 100%;
+    }
+
+    .player-card {
+        background: rgba(0,0,0,0.5);
+        border: 1px solid #444;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        color: #fff;
+        font-family: Arial, sans-serif;
+    }
+
+    .player-card img {
+        width: 150px;
+        height: auto;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+
+    .player-card h3 {
+        margin: 10px 0;
+        font-family: 'CelticsFont', Arial, sans-serif;
+        font-size: 1.5em;
+    }
+
+    .player-card a {
+        text-decoration: none;
+        color: #f1c40f;
+    }
+
+    .player-card a:hover {
+        text-decoration: underline;
+    }
+
+    .player-card form {
+        margin-top: 10px;
+    }
+
+    .player-card form button {
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f1c40f;
+        color: #000;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .player-card form button:hover {
+        background-color: #d4ac0d;
+    }
+</style>
+
+<div class="roster-page">
+    <div class="roster-content">
+        <h1 class="section-heading">My Roster</h1>
+        {% if roster %}
+            <div class="roster-grid">
+                {% for player in roster %}
+                <div class="player-card">
+                    <!-- Player image -->
+                    <img src="{{ player.player_image_url }}" alt="{{ player.player_name }}">
+                    <!-- Player name with link to details -->
+                    <h3><a href="{% url 'nba_stats:player_details' player_id=player.player_id %}">{{ player.player_name }}</a></h3>
+                    <!-- Form to remove player from roster -->
+                    <form action="{% url 'nba_stats:remove_from_roster' player_id=player.player_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Remove</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Message when roster is empty -->
+            <p style="font-size: 1.2em; color: #ccc;">Your roster is empty. Add players to your roster from their profile pages!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

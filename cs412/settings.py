@@ -36,16 +36,16 @@ ENVIRONMENT = env('ENVIRONMENT', default='development')  # Get the environment
 
 # Basic Installed Apps and Middleware
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'quotes',
-    'ushqim',
-    'mini_fb',
-    'voter_analytics',
+    # 'django.contrib.admin',
+    # 'django.contrib.auth',
+    # 'django.contrib.contenttypes',
+    # 'django.contrib.sessions',
+    # 'django.contrib.messages',
+    # 'django.contrib.staticfiles',
+    # 'quotes',
+    # 'ushqim',
+    # 'mini_fb',
+    # 'voter_analytics',
     'nba_stats',
     # 'storages',
 ]
@@ -125,15 +125,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Additional Security and Production Settings
 if ENVIRONMENT == 'production':
-    # ALLOWED_HOSTS = [
-    #     'obi-wan-quotes-a25cf872dd4b.herokuapp.com',
-    #     'obi-wan-quotes.herokuapp.com',
-    #     'https://ushqim-754dbfe6e671.herokuapp.com',
-    #     'ushqim-754dbfe6e671.herokuapp.com',
-    #     'https://mini-fb-3c30967d650d.herokuapp.com',
-    #     'mini-fb-3c30967d650d.herokuapp.com'
-    # ]
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = [
+        'obi-wan-quotes-a25cf872dd4b.herokuapp.com',
+        'obi-wan-quotes.herokuapp.com',
+        'https://ushqim-754dbfe6e671.herokuapp.com',
+        'ushqim-754dbfe6e671.herokuapp.com',
+        'https://mini-fb-3c30967d650d.herokuapp.com',
+        'mini-fb-3c30967d650d.herokuapp.com'
+    ]
 
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

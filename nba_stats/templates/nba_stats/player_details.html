@@ -3,107 +3,100 @@
 
 {% block content %}
 <style>
-    /* Styling for the entire player details page */
     .player-page {
         position: relative;
-        min-height: 100vh; /* Ensure the content fills the viewport */
+        min-height: 100vh;
         width: 100%;
         background: url("{% static 'images/nba_legends_bg.jpg' %}") no-repeat center center fixed;
-        background-size: cover; /* Background image covers the entire page */
+        background-size: cover;
         color: #fff;
-        padding: 100px 20px; /* Spacing around the content */
+        padding: 100px 20px 100px 20px;
         box-sizing: border-box;
     }
 
-    /* Semi-transparent overlay for better text visibility */
     .player-page::before {
         content: "";
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.7); /* Dark overlay with 70% opacity */
+        background: rgba(0,0,0,0.7);
         z-index: 1;
     }
 
-    /* Main content wrapper */
     .player-content {
         position: relative;
-        z-index: 2; /* Ensure the content is above the overlay */
-        max-width: 1200px; /* Restrict content width */
-        margin: 0 auto; /* Center the content horizontally */
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
         display: flex;
-        flex-direction: column; /* Stack elements vertically */
-        align-items: center; /* Center elements horizontally */
+        flex-direction: column;
+        align-items: center;
     }
 
-    /* Header section with player image and basic details */
     .player-header {
-        display: flex; /* Arrange player image and text side by side */
-        align-items: center; /* Vertically align image and text */
+        display: flex;
+        align-items: center;
         margin-bottom: 40px;
     }
 
     .player-header img {
-        width: 300px; /* Fixed image size for uniformity */
+        width: 300px;
         height: auto;
-        border-radius: 50%; /* Circular player image */
-        box-shadow: 0 0 10px rgba(255,255,255,0.3); /* Subtle glow effect */
-        margin-right: 30px; /* Space between image and text */
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        margin-right: 30px;
     }
 
     .player-name {
-        font-family: 'CelticsFont', Arial, sans-serif; /* Custom font for player name */
+        font-family: 'CelticsFont', Arial, sans-serif;
         font-size: 3em;
         margin: 0;
     }
 
     .player-subtitle {
-        font-family: Helvetica, Arial, sans-serif; /* Clean sans-serif font */
+        font-family: Helvetica, Arial, sans-serif;
         font-size: 1.2em;
-        color: #ccc; /* Lighter text color for subtitle */
+        color: #ccc;
         margin-top: 5px;
     }
 
     .career-averages {
         font-family: Helvetica, Arial, sans-serif;
         font-size: 1em;
-        color: #fff; /* White text for contrast */
+        color: #fff;
         margin-top: 15px;
     }
 
-    /* Section headings for content organization */
     .section-heading {
         font-family: 'CelticsFont', Arial, sans-serif;
         font-size: 2em;
         margin: 40px 0 20px 0;
         text-align: left;
-        width: 100%; /* Full-width heading */
-        color: #f1c40f; /* Highlighted yellow color */
-        border-bottom: 2px solid #f1c40f; /* Underline for emphasis */
+        width: 100%;
+        color: #f1c40f;
+        border-bottom: 2px solid #f1c40f;
         padding-bottom: 10px;
     }
 
-    /* Styling for stats tables */
     .stats-table {
-        width: 100%; /* Full-width table */
-        border-collapse: collapse; /* Remove gaps between cells */
+        width: 100%;
+        border-collapse: collapse;
         font-family: Helvetica, Arial, sans-serif;
         margin-bottom: 40px;
     }
 
     .stats-table th, .stats-table td {
-        border: 1px solid #444; /* Dark borders for structure */
+        border: 1px solid #444;
         padding: 10px;
-        text-align: center; /* Center text in cells */
-        color: #fff; /* White text for contrast */
-        background: rgba(0,0,0,0.3); /* Semi-transparent cell background */
+        text-align: center;
+        color: #fff;
+        background: rgba(0,0,0,0.3);
     }
 
     .stats-table th {
-        background: rgba(0,0,0,0.5); /* Slightly darker background for headers */
+        background: rgba(0,0,0,0.5);
         font-weight: bold;
     }
 
-    /* Styling for dropdown form */
     .stats-form {
         font-family: Helvetica, Arial, sans-serif;
         margin: 20px 0;
@@ -111,7 +104,7 @@
 
     .stats-form select,
     .stats-form button {
-        padding: 10px; /* Uniform padding for inputs */
+        padding: 10px;
         border: none;
         border-radius: 4px;
         margin-right: 10px;
@@ -119,25 +112,23 @@
     }
 
     .stats-form button {
-        background-color: #f1c40f; /* Bright yellow button */
+        background-color: #f1c40f;
         color: #000;
-        cursor: pointer; /* Pointer cursor on hover */
+        cursor: pointer;
     }
 
     .stats-form button:hover {
-        background-color: #d4ac0d; /* Slightly darker hover color */
+        background-color: #d4ac0d;
     }
 
-    /* Enable page scrolling */
     html, body {
         overflow: auto;
     }
 </style>
 
-<!-- Player details page structure -->
 <div class="player-page">
     <div class="player-content">
-        <!-- Header section with player's image and career stats -->
+        <!-- Player header section -->
         <div class="player-header">
             <img src="{{ headshot_url }}" alt="{{ player_name }} headshot">
             <div>
@@ -153,7 +144,38 @@
             </div>
         </div>
 
-        <!-- Career statistics section -->
+        {% if user.is_authenticated %}
+<form id="add-to-roster-form" action="{% url 'nba_stats:add_to_roster' player_id=player_id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Add to Roster</button>
+</form>
+<div id="add-to-roster-message"></div>
+<script>
+    document.getElementById("add-to-roster-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const messageDiv = document.getElementById("add-to-roster-message");
+        fetch(form.action, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value,
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            messageDiv.textContent = data.message;
+            if (data.status === "success") {
+                form.style.display = "none";
+            }
+        })
+        .catch(error => {
+            messageDiv.textContent = "Error adding player to roster.";
+        });
+    });
+</script>
+{% endif %}
+
+        <!-- Career Totals Section -->
         {% if career_stats %}
             <h2 class="section-heading">Career Regular Season Totals</h2>
             <table class="stats-table">
@@ -169,14 +191,14 @@
             <p style="font-family:Helvetica,Arial,sans-serif; color:#fff;">No career stats available.</p>
         {% endif %}
 
-        <!-- Dropdown form for additional stats selection -->
+        <!-- Stats Dropdown Form -->
         <form method="post" class="stats-form" style="display: flex; align-items: center;">
             {% csrf_token %}
             {{ dropdown_form }}
             <button type="submit" style="margin-left: 10px;">Go</button>
         </form>
 
-        <!-- Detailed stats table for selected category -->
+        <!-- Chosen Stats Section -->
         {% if chosen_stats %}
             <h2 class="section-heading">{{ chosen_title }} Stats</h2>
             <table class="stats-table">
