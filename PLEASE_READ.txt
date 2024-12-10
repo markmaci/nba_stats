@@ -25,3 +25,6 @@ is to have the stats of every nba player from 1950 - present. But the app does n
 fetching all of that data at once (way too large), it fetches the data for a specific player when the user requests
 it (so it's weird that it's timing out). If you would like to try the app out, please run it locally. I'm sorry for the inconvenience.
 You can also check the video as it shows the app in action.
+
+I am including all files (including the .env) so that the project can be ran by graders. The url will
+be http://127.0.0.1:8000/nba_stats/

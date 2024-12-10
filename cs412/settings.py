@@ -36,12 +36,12 @@ ENVIRONMENT = env('ENVIRONMENT', default='development')  # Get the environment
 
 # Basic Installed Apps and Middleware
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
-    # 'django.contrib.auth',
-    # 'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
-    # 'django.contrib.messages',
-    # 'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
     # 'quotes',
     # 'ushqim',
     # 'mini_fb',

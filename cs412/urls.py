@@ -21,10 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('quote/', include('quotes.urls')), # Test to see if we can move to /obiwanquotes wihtout blowing up
-    path('ushqim/', include('ushqim.urls')),
-    path('mini_fb/', include('mini_fb.urls')),
-    path('voter_analytics/', include('voter_analytics.urls', namespace='voter_analytics')),
+    # path('quote/', include('quotes.urls')), # Test to see if we can move to /obiwanquotes wihtout blowing up
+    # path('ushqim/', include('ushqim.urls')),
+    # path('mini_fb/', include('mini_fb.urls')),
+    # path('voter_analytics/', include('voter_analytics.urls', namespace='voter_analytics')),
     path('nba_stats/', include('nba_stats.urls', namespace='nba_stats')),
 ]
 
