@@ -16,15 +16,13 @@ method=GET path="/nba_stats/player/1628973/" host=mini-fb-3c30967d650d.herokuapp
 request_id=b79ae7d9-5c71-426e-b75b-9d824d04383d fwd="104.28.39.31" dyno=web.1
 connect=0ms service=30000ms status=503 bytes=0 protocol=https
 
-My only explanation is that it's something weird with the NBA api I'm using. I've never faced
-this issue with the classes' previous assignments or with other django apps I've built that
-fetch api data.
+Edit:
+I met with professor Stevens today and we found out that the reason for this error is that
+the python package scrapes data from the NBA website and the NBA website has some sort of 
+protection that blocks requests from being made from a 3rd party server. We tried getting the 
+app deployed on the bu cs web apps site so we'll see how that goes once he talks to a system
+admin about getting the right packages on there. Basically, he is aware of the situation and 
+said to me that if graders come to him about he'll know what's going on.
 
-I cannot pre-download the data like the professor reccomened because the purpose of the app
-is to have the stats of every nba player from 1950 - present. But the app does not function by
-fetching all of that data at once (way too large), it fetches the data for a specific player when the user requests
-it (so it's weird that it's timing out). If you would like to try the app out, please run it locally. I'm sorry for the inconvenience.
-You can also check the video as it shows the app in action.
-
-I am including all files (including the .env) so that the project can be ran by graders. The url will
-be http://127.0.0.1:8000/nba_stats/
+I am including all files (including the .env) so that the project can be ran locally by graders.
+The url will be http://127.0.0.1:8000/nba_stats/
