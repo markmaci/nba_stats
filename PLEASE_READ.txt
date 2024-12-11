@@ -24,5 +24,12 @@ app deployed on the bu cs web apps site so we'll see how that goes once he talks
 admin about getting the right packages on there. Basically, he is aware of the situation and 
 said to me that if graders come to him about he'll know what's going on.
 
-I am including all files (including the .env) so that the project can be ran locally by graders.
+To run the file locally, simply create a .env with the following variables:
+
+SECRET_KEY= '-qp=r6bm3sepdm$32=wozf8!b9dl(9i3p%051t^!8e=_i=2h!-'
+DEBUG=False
+ENVIRONMENT=development
+DATABASE_URL=sqlite:///db.sqlite3
+
+
 The url will be http://127.0.0.1:8000/nba_stats/
